@@ -20,10 +20,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Table
 @Entity
@@ -53,9 +53,9 @@ public class Purchase {
   @Column(nullable = false, updatable = false)
   LocalDateTime createdAt;
 
-  @Column
-  @UpdateTimestamp
-  LocalDateTime updatedAt;
+//  @Column
+//  @UpdateTimestamp
+//  LocalDateTime updatedAt;
 
   @Builder
   public Purchase(
@@ -66,5 +66,11 @@ public class Purchase {
     this.user = user;
     this.totalPrice = totalPrice;
     this.status = status;
+  }
+
+  public void setStatus(PurchaseStatus status) {
+    if (!ObjectUtils.isEmpty(status)) {
+      this.status = status;
+    }
   }
 }

@@ -22,6 +22,8 @@ spring:
       hibernate:
         # MySQL 8 버전에 맞는 Dialect(방언) 설정
         dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        highlight_sql: true
 
   # 로깅 레벨 설정
   logging:
