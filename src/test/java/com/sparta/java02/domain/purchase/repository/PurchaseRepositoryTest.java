@@ -5,7 +5,6 @@ import com.sparta.java02.domain.purchase.entity.Purchase;
 import com.sparta.java02.domain.user.entity.User;
 import com.sparta.java02.domain.user.repository.UserRepository;
 import java.math.BigDecimal;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,15 +73,9 @@ class PurchaseRepositoryTest {
 
   @Test
   void 조회() {
-    User user = userRepository.findById(7L).get();
-
-    Purchase purchase = Purchase.builder()
-        .user(user)
-        .totalPrice(BigDecimal.valueOf(1000))
-        .status(PurchaseStatus.PENDING)
-        .build();
-
-    List<Purchase> purchases = purchaseRepository.findAll();
-    log.info("결과 : " + purchases.get(0).getId());
+    Purchase purchase = purchaseRepository.findById(2L)
+        .orElseThrow(() -> new RuntimeException("조회내역이 없음!"));
+    log.info("결과 : " + purchase.getId());
+    log.info("결과 : " + purchase.getTotalPrice());
   }
 }
