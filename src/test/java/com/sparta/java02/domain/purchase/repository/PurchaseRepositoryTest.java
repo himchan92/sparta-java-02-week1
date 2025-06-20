@@ -73,9 +73,11 @@ class PurchaseRepositoryTest {
 
   @Test
   void 조회() {
-    Purchase purchase = purchaseRepository.findById(2L)
-        .orElseThrow(() -> new RuntimeException("조회내역이 없음!"));
-    log.info("결과 : " + purchase.getId());
-    log.info("결과 : " + purchase.getTotalPrice());
+//    Purchase purchase = purchaseRepository.findById(2L)
+//        .orElseThrow(() -> new RuntimeException("조회내역이 없음!"));
+//    log.info("결과 : " + purchase.getId());
+//    log.info("결과 : " + purchase.getTotalPrice());
+
+    userRepository.findAllByWithPurchases();
   }
 }

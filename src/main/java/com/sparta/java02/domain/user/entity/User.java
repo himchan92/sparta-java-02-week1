@@ -1,12 +1,16 @@
 package com.sparta.java02.domain.user.entity;
 
+import com.sparta.java02.domain.purchase.entity.Purchase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +56,9 @@ public class User {
   @Column(nullable = false, updatable = false)
   @CreationTimestamp //CURRENT TIMESTAMP 속성 지원
       LocalDateTime createdAt; //자바 자주쓰는 날짜시간 함수
+
+  @OneToMany(mappedBy = "user")
+  private List<Purchase> purchases = new ArrayList<>();
 
 //  @Column
 //  @UpdateTimestamp //DB 수정마다 JPA가 자동 수정시간 지원
