@@ -1,6 +1,5 @@
 package com.sparta.java02;
 
-import com.sparta.java02.domain.purchase.entity.Purchase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,11 +8,6 @@ public class Java02Application {
 
   public static void main(String[] args) {
     SpringApplication.run(Java02Application.class, args);
-
-    Purchase purchase = Purchase.builder()
-
-        .build();
-
     //빌더패턴통해 생성자 개선점
 //    User user = User.builder()
 //        .name("이름")
