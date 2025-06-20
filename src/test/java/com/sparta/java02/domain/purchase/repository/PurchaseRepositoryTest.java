@@ -5,11 +5,14 @@ import com.sparta.java02.domain.purchase.entity.Purchase;
 import com.sparta.java02.domain.user.entity.User;
 import com.sparta.java02.domain.user.repository.UserRepository;
 import java.math.BigDecimal;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Transactional
 @SpringBootTest
 class PurchaseRepositoryTest {
@@ -67,5 +70,19 @@ class PurchaseRepositoryTest {
 //    List<Purchase> purchases = new ArrayList<>();
 //    purchaseRepository.deleteAll(); //admin 기능 구현 시 사용되니 참고
 
+  }
+
+  @Test
+  void 조회() {
+    User user = userRepository.findById(7L).get();
+
+    Purchase purchase = Purchase.builder()
+        .user(user)
+        .totalPrice(BigDecimal.valueOf(1000))
+        .status(PurchaseStatus.PENDING)
+        .build();
+
+    List<Purchase> purchases = purchaseRepository.findAll();
+    log.info("결과 : " + purchases.get(0).getId());
   }
 }
