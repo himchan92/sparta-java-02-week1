@@ -29,7 +29,8 @@ import org.hibernate.annotations.DynamicUpdate;
 //@Builder // 클래스에 명시할경우 모든 필드 있는 생성자를 요구하는데 엔티니는 모든필드 노출하면 안되서 안하는걸 권장
 @DynamicInsert //값이 null이 아닌것만 INSERT 작성 (필수 권장)
 @DynamicUpdate //기존과 비교하여 변경된 내용만 UPDATE 작성 (필수 권장)
-@FieldDefaults(level = AccessLevel.PRIVATE) //모든 필드를 일괄 지원되어 필드에 일일이 명시안해도됨
+@FieldDefaults(level = AccessLevel.PRIVATE)
+//모든 필드를 일괄 지원되어 필드에 일일이 명시안해도됨(단, 엔티티, DTO에서만 사용하고 서비스, 컨트롤러에서는 권장x)
 @NoArgsConstructor
 public class User {
 
