@@ -1,7 +1,7 @@
 package com.sparta.java02.global.config;
 
-import com.sparta.java02.domain.user.service.UserService;
 import com.sparta.java02.domain.user.service.UserServiceImplV2;
+import com.sparta.java02.domain.user.service.UserService_v1;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ public class BeanConfig {
   //        싱글턴패턴으로써 @Bean에 등록되어 인스턴스된것은 무조건 하나만 존재하는법칙
   //        싱글턴패턴이기에 @Bean 등록된 동일한 메소드 있으면 에러발생
   @Bean
-  public UserService userService() {
+  public UserService_v1 userService() {
     return new UserServiceImplV2();
   }
 }
