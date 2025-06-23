@@ -24,10 +24,11 @@ public class UserController {
   //IOC(제어의 역전) : 개발자가 직접 new 키워드로 인스턴스 수행아닌 스프링컨테이너가 대신 수행
   // Autowired : 스프링컨테이너가 해당 어노테이션 붙은 객체에 인스턴스를 부여(=주입)
   @Autowired
-  private UserService userService; //필드방식 주입
+  private UserService userService; //필드방식 주입(Autowired 작성 필수)
 
   //생성자 주입방식 : 필드아닌 생성자에 Autowired붙이면 UserController 생성 시 싱글턴방식의 @Bean 적용된 메소드안에서 생성된 객체를 주입
   //                생성자 주입때는 final 필수 붙일것
+  //                필드, setter, 생성자 주입방식중에서 가장 권장되는 방식
   private final UserService userService2;
 
   //@Autowired -> 생략가능하고 롬복에서 생성자조차도 생략되어 생성자 DI를 제공해준다.(@RequiredArgsConstructor)
@@ -35,7 +36,7 @@ public class UserController {
     this.userService2 = userService2;
   }
 
-  // SETTER 주입방식
+  // SETTER 주입방식(Autowired 작성 필수)
   private UserService userService3;
 
   @Autowired
