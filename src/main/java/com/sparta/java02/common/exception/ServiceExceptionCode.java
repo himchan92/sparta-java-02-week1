@@ -14,5 +14,5 @@ public enum ServiceExceptionCode {
   NOT_FOUND_USER("유저를 찾을 수 없습니다."),
   ;
 
-  private String message;
+  final String message;
 }

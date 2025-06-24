@@ -69,8 +69,9 @@ public class UserController {
   }
 
   //API 스펙 확인되고 여러 개발자가 보기쉽게하가위해서 별도 Request, Response DTO 만들어 명시
+  //@Valid : validation 지원함수를 적용위해 필수 설정
 //  @PostMapping()
-//  public ResponseEntity<Void> save(@RequestBody UserCreateRequest request) {
+//  public ResponseEntity<Void> save(@Valid @RequestBody UserRequest request) {
 //    userService.save();
 //  }
 //

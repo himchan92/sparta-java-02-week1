@@ -14,6 +14,7 @@ public class ServiceException extends RuntimeException {
   String message;
 
   public ServiceException(ServiceExceptionCode code) {
+    //부모클래스(RuntimeException) 생성자를 호출하며 해당 클래스는 문자열 파라미터를 요구하여 code.getMessage() 넣음
     super(code.getMessage());
     this.code = code.name();
     this.message = super.getMessage();
