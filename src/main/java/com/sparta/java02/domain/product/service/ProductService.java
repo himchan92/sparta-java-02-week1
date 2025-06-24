@@ -1,5 +1,7 @@
 package com.sparta.java02.domain.product.service;
 
+import com.sparta.java02.common.exception.ServiceException;
+import com.sparta.java02.common.exception.ServiceExceptionCode;
 import com.sparta.java02.domain.product.dto.ProductRequest;
 import com.sparta.java02.domain.product.dto.ProductResponse;
 import com.sparta.java02.domain.product.entity.Product;
@@ -10,24 +12,43 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor //final 필드 생성자 생성 지원
+@RequiredArgsConstructor
 public class ProductService {
 
-  //필드방식, Autowired 필수
-//  @Autowired
-//  private ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-  private final ProductRepository productRepository; //final 붙어 불변성 보장
-
+  //전체조회
   public List<ProductResponse> getAll() {
     return new ArrayList<>();
   }
 
+  //ID 기준 단건조회
   public ProductResponse getById(Long id) {
-    return null;
+    // orElseThrow() 사용이유
+    //- 값 존재하지 않을시 명시적 예외던져 오류발생 사전차단
+    //- Optional, get 사용시 Exception 터져 비추
+    //- new Exception 커스터마이징한것 호출통해 에러코드, 메세지 파악쉬워 유지보수 용이
+    Product product = productRepository.findById(id)
+        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_PRODUCT));
+
+    //빌더패턴 반환이유
+    //- 안전하고 명확하게 만들기위함
+    //- 각필드 및 값이 명시적으로 표현되어있어 파악쉬움
+    //- 필드 명시 순서 상관없어 실수방지
+    //- 값이 명확하여 개발자 실수 줄여줌
+    //- 불변성으로써 변경불가능한 필드 생성유리
+    return ProductResponse.builder()
+        .id(product.getId())
+        .categoryId(product.getCategoryId())
+        .name(product.getName())
+        .description(product.getDescription())
+        .price(product.getPrice())
+        .stock(product.getStock())
+        .createdAt(product.getCreatedAt())
+        .build();
   }
 
-  public ProductRequest create(Product request) {
+  public ProductResponse create(ProductRequest request) {
     return null;
   }
 
@@ -38,16 +59,4 @@ public class ProductService {
   public void delete(Long id) {
 
   }
-
-  //생성자 호출시점 생성
-//  public ProductService(ProductRepository productRepository) {
-//    this.productRepository = productRepository;
-//  }
-
-  //setter 주입방식으로 Autowired 필수, 생성후에도 변경가능하여 final 불가능
-//  private ProductRepository productRepository;
-//  @Autowired
-//  public void setProductRepository(ProductRepository productRepository) {
-//    this.productRepository = productRepository;
-//  }
 }

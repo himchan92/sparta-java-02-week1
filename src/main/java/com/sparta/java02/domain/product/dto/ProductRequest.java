@@ -9,22 +9,22 @@ import lombok.experimental.FieldDefaults;
 import org.wildfly.common.annotation.NotNull;
 
 @Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE) //모든 필드 범위 private 제한
 public class ProductRequest {
 
   Long categoryId;
 
-  @NotNull
+  @NotNull //validation 지원으로 컨트롤러에서 @Valid 필요
   String name;
 
   String description;
 
   @NotNull
-  @Positive
+  @Positive //값을 양수로만 제한
   BigDecimal price;
 
   @NotNull
-  @PositiveOrZero
+  @PositiveOrZero //값을 양수 혹은 0으로만 제한
   Integer stock;
 
 }
