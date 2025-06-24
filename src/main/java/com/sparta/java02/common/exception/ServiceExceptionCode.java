@@ -1,0 +1,18 @@
+package com.sparta.java02.common.exception;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public enum ServiceExceptionCode {
+
+  NOT_FOUND_DATA("데이터를 찾을수 없습니다."),
+  NOT_FOUND_USER("유저를 찾을 수 없습니다."),
+  ;
+
+  private String message;
+}
