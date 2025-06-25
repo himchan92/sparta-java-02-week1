@@ -35,7 +35,8 @@ public class UserService {
 //        .toList();
     //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
     return userRepository.findAll().stream()
-        .map(userMapper::toSearch) // 자바 람다식문법으로 userMapper.toSearch() 동일
+        // 자바 람다식문법으로 userMapper.toSearch() 동일, 단, 파라미터가 단일일때만 사용가능, 멀티면 불가능
+        .map(userMapper::toSearch)
         .toList();
   }
 
@@ -83,6 +84,7 @@ public class UserService {
     userRepository.delete(getUser(userId));
   }
 
+  // 변경수행 전 대상조회하는 로직을 공통함수화
   private User getUser(Long userId) {
     return userRepository.findById(userId)
         .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_USER));
