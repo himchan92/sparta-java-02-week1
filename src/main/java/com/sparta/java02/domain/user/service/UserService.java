@@ -18,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
+  //조회 메소드 명명규칙 차이
+  // find~ : 값이 있든 없든 조회
+  // get~ : 값이 있는것만 조회
+
   //동작, 분기처리 등 대부분로직은 서비스에서 수행하고 컨트롤러에서 분기처리 등 넣지말자
   private final UserRepository userRepository;
 
