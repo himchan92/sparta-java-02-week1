@@ -9,8 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserSearchResponse {
+public class UserResponse {
 
+  // mapstruct는 반드시 필드명이 서로 일치해야 매핑되니 주의해라
   Long id;
 
   String name;
@@ -18,4 +19,6 @@ public class UserSearchResponse {
   String email;
 
   LocalDateTime createdAt;
+
+
 }

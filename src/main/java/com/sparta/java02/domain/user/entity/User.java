@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -26,6 +27,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table
 @Entity
 @Getter
+@Setter
 //@Builder // 클래스에 명시할경우 모든 필드 있는 생성자를 요구하는데 엔티니는 모든필드 노출하면 안되서 안하는걸 권장
 @DynamicInsert //값이 null이 아닌것만 INSERT 작성 (필수 권장)
 @DynamicUpdate //기존과 비교하여 변경된 내용만 UPDATE 작성 (필수 권장)

@@ -2,38 +2,89 @@ package com.sparta.java02.domain.user.service;
 
 import com.sparta.java02.common.exception.ServiceException;
 import com.sparta.java02.common.exception.ServiceExceptionCode;
-import com.sparta.java02.domain.purchase.repository.PurchaseRepository;
+import com.sparta.java02.domain.user.dto.UserCreateRequest;
+import com.sparta.java02.domain.user.dto.UserResponse;
 import com.sparta.java02.domain.user.dto.UserSearchResponse;
+import com.sparta.java02.domain.user.dto.UserUpdateRequest;
+import com.sparta.java02.domain.user.entity.User;
+import com.sparta.java02.domain.user.mapper.UserMapper;
 import com.sparta.java02.domain.user.repository.UserRepository;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+  //동작, 분기처리 등 대부분로직은 서비스에서 수행하고 컨트롤러에서 분기처리 등 넣지말자
   private final UserRepository userRepository;
 
-  //리포지토리는 다른 영역으로 도메인 상관없어 참조 가능
-  private final PurchaseRepository purchaseRepository;
+  private final UserMapper userMapper; //mapstruct 사용
 
-  public List<UserSearchResponse> searchAll(Long userId) {
-
-    //리포지터리통해 참조하는경우는 도메인주도개발 관점에서 고민필요...
-//    Purchase purchase = purchaseRepository.findById(userId)
-//        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_DATA));
-
-    if (ObjectUtils.isEmpty(userId)) {
-      throw new ServiceException(ServiceExceptionCode.NOT_FOUND_USER);
-    }
-
-    return new ArrayList<>();
+  @Transactional
+  public List<UserSearchResponse> searchUser() {
+//    return userRepository.findAll().stream()
+//        .map((user) -> UserSearchResponse.builder()
+//            .id(user.getId())
+//            .name(user.getName())
+//            .email(user.getEmail())
+//            .createdAt(user.getCreatedAt())
+//            .build())
+//        .toList();
+    //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
+    return userRepository.findAll().stream()
+        .map(userMapper::toSearch) // 자바 람다식문법으로 userMapper.toSearch() 동일
+        .toList();
   }
 
-  public void save() {
+  @Transactional
+  public UserResponse getUserById(Long userId) {
+//    User user = getUser(userId);
+//
+//    return UserResponse.builder()
+//        .id(user.getId())
+//        .name(user.getName())
+//        .email(user.getEmail())
+//        .createdAt(user.getCreatedAt())
+//        .build();
 
+    //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
+    return userMapper.toResponse(getUser(userId));
+  }
+
+  @Transactional
+  public void create(UserCreateRequest request) {
+    //필드가 적으면 모를까 여러개일경우 일일이 매핑하면 시간오래걸려 mapstructs 활용하면 좋음
+//    userRepository.save(User.builder()
+//        .name(request.getName())
+//        .email(request.getEmail())
+//        .passwordHash(request.getPassword())
+//        .build());
+
+    //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
+    userRepository.save(userMapper.toEntity(request));
+  }
+
+  @Transactional
+  public void update(Long userId, UserUpdateRequest request) {
+    User user = getUser(userId);
+
+    user.setName(request.getName());
+    user.setEmail(request.getEmail());
+
+    userRepository.save(user);
+
+  }
+
+  @Transactional
+  public void delete(Long userId) {
+    userRepository.delete(getUser(userId));
+  }
+
+  private User getUser(Long userId) {
+    return userRepository.findById(userId)
+        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_USER));
   }
 }

@@ -1,13 +1,20 @@
 package com.sparta.java02.domain.user.controller;
 
 import com.sparta.java02.common.response.ApiResponse;
+import com.sparta.java02.domain.user.dto.UserCreateRequest;
+import com.sparta.java02.domain.user.dto.UserResponse;
 import com.sparta.java02.domain.user.dto.UserSearchResponse;
+import com.sparta.java02.domain.user.dto.UserUpdateRequest;
 import com.sparta.java02.domain.user.service.UserService;
-import java.util.ArrayList;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,34 +69,34 @@ public class UserController {
   @GetMapping("/{userId}")
   public ApiResponse<List<UserSearchResponse>> findAll(@RequestParam(required = false) String email,
       @PathVariable Long userId) {
-    //return ResponseEntity.status(200).body(UserSearchResponse.builder().build());
-    return ApiResponse.success(new ArrayList<>());
+    return ApiResponse.success(userService.searchUser());
+  }
 
-    //return ResponseEntity.ok(UserSearchResponse.builder().build()); //200 상태대신 ResponseEntity ok 메소드가 제공
+  @GetMapping("/{userId}")
+  public ApiResponse<UserResponse> findbyId(@PathVariable Long userId) {
+    return ApiResponse.success(userService.getUserById(userId));
   }
 
   //API 스펙 확인되고 여러 개발자가 보기쉽게하가위해서 별도 Request, Response DTO 만들어 명시
   //@Valid : validation 지원함수를 적용위해 필수 설정
-//  @PostMapping()
-//  public ResponseEntity<Void> save(@Valid @RequestBody UserRequest request) {
-//    userService.save();
-//  }
-//
-//  //회사마다 다르지만 API 설계시 GET, POST, PUT 별로 Request, Response DTO 명을 구분하거나 하나로 통일해서 사용하니 참고
-//  @PutMapping("{userId}") //일반 업데이트
-//  public ResponseEntity<Void> update(@PathVariable Long userId,
-//      @RequestBody UserUpdateStatusRequest request) {
-//
-//  }
-//
-//  @PatchMapping("{userId}") //부분 업데이트 시 사용
-//  public ResponseEntity<Void> updateStatus(@PathVariable Long userId,
-//      @RequestBody UserUpdateStatusRequest request) {
-//
-//  }
-//
-//  @DeleteMapping("{userId}")
-//  public ResponseEntity<Void> delete(@PathVariable Long userId) {
-//
-//  }
+  @PostMapping
+  public ApiResponse<Void> create(@Valid @RequestBody UserCreateRequest request) {
+    userService.create(request);
+    return ApiResponse.success();
+  }
+
+  @PutMapping("{userId}")
+  public ApiResponse<Void> update(@PathVariable Long userId,
+      @Valid @RequestBody UserUpdateRequest request) {
+    userService.update(userId, request);
+
+    return ApiResponse.success();
+  }
+
+  @DeleteMapping("{userId}")
+  public ApiResponse<Void> delete(@PathVariable Long userId) {
+    userService.delete(userId);
+
+    return ApiResponse.success();
+  }
 }

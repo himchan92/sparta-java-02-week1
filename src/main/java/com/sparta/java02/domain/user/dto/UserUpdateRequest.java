@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateStatusRequest {
+public class UserUpdateRequest {
 
   String name;
 
