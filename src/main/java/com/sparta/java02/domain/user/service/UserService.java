@@ -2,7 +2,6 @@ package com.sparta.java02.domain.user.service;
 
 import com.sparta.java02.common.exception.ServiceException;
 import com.sparta.java02.common.exception.ServiceExceptionCode;
-import com.sparta.java02.domain.purchase.entity.Purchase;
 import com.sparta.java02.domain.purchase.repository.PurchaseRepository;
 import com.sparta.java02.domain.user.dto.UserSearchResponse;
 import com.sparta.java02.domain.user.repository.UserRepository;
@@ -24,8 +23,8 @@ public class UserService {
   public List<UserSearchResponse> searchAll(Long userId) {
 
     //리포지터리통해 참조하는경우는 도메인주도개발 관점에서 고민필요...
-    Purchase purchase = purchaseRepository.findById(userId)
-        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_DATA));
+//    Purchase purchase = purchaseRepository.findById(userId)
+//        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_DATA));
 
     if (ObjectUtils.isEmpty(userId)) {
       throw new ServiceException(ServiceExceptionCode.NOT_FOUND_USER);
