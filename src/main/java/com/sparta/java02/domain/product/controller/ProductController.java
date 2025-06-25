@@ -1,14 +1,16 @@
 package com.sparta.java02.domain.product.controller;
 
 import com.sparta.java02.common.response.ApiResponse;
+import com.sparta.java02.domain.product.dto.ProductRequest;
 import com.sparta.java02.domain.product.dto.ProductResponse;
 import com.sparta.java02.domain.product.service.ProductService;
 import java.util.List;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController //Controller + RequestBody(JSON 반환 지원)
 @RequiredArgsConstructor //final 필드 생성자 DI 지원
@@ -27,5 +29,25 @@ public class ProductController {
   @GetMapping("/{id}")
   public ApiResponse<ProductResponse> getById(@PathVariable Long id) {
     return ApiResponse.success(productService.getById(id));
+  }
+
+  //등록
+  @PostMapping
+  public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
+  }
+
+  //id 기준 수정
+  @PutMapping("/{id}")
+  public ResponseEntity<ProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+    return ResponseEntity.ok(productService.update(id, request));
+  }
+
+  //id 기준 상품삭제
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    productService.delete(id);
+
+    return ResponseEntity.noContent().build();
   }
 }
