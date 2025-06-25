@@ -33,21 +33,21 @@ public class ProductController {
 
   //등록
   @PostMapping
-  public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
+  public ApiResponse<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
+    return ApiResponse.success(productService.create(request));
   }
 
   //id 기준 수정
   @PutMapping("/{id}")
-  public ResponseEntity<ProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
-    return ResponseEntity.ok(productService.update(id, request));
+  public ApiResponse<ProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+    return ApiResponse.success(productService.update(id, request));
   }
 
   //id 기준 상품삭제
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
+  public ApiResponse<Void> delete(@PathVariable Long id) {
     productService.delete(id);
 
-    return ResponseEntity.noContent().build();
+    return ApiResponse.success();
   }
 }
