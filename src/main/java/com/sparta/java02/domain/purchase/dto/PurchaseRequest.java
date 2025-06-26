@@ -12,6 +12,10 @@ public class PurchaseRequest {
 
   Long id;
 
+  Long productId;
+
+  int quantity;
+
   BigDecimal totalPrice;
 
   LocalDateTime createdAt;
