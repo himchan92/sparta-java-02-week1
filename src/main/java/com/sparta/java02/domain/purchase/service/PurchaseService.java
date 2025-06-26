@@ -2,11 +2,14 @@ package com.sparta.java02.domain.purchase.service;
 
 import com.sparta.java02.common.exception.ServiceException;
 import com.sparta.java02.common.exception.ServiceExceptionCode;
+import com.sparta.java02.common.response.ApiResponse;
+import com.sparta.java02.domain.purchase.dto.PurchaseRequest;
 import com.sparta.java02.domain.purchase.entity.Purchase;
 import com.sparta.java02.domain.purchase.repository.PurchaseRepository;
 import com.sparta.java02.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +24,12 @@ public class PurchaseService {
   //허용1. 같은도메인분류 서비스는 순환참조 적기에 허용
   private PurchaseCancelService purchaseCancelService;
 
-  public final Purchase getPurchase(Long purchaseId) {
-    return purchaseRepository.findById(purchaseId)
-        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_DATA));
+  @Transactional
+  public ApiResponse<PurchaseRequest> findById(Long productId) {
+    Purchase findPurchase = purchaseRepository.findById(productId)
+        .orElseThrow(() -> new ServiceException(
+            ServiceExceptionCode.NOT_FOUND_DATA));
+
+    return ApiResponse.success();
   }
 }
