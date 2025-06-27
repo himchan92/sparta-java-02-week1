@@ -11,7 +11,6 @@ import com.sparta.java02.domain.user.mapper.UserMapper;
 import com.sparta.java02.domain.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +79,7 @@ public class UserService {
 //        .build());
 
     //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
-    userRepository.save(userMapper.toEntity(request));
+    //userRepository.save(userMapper.toEntity(request));
   }
 
 //  @Transactional

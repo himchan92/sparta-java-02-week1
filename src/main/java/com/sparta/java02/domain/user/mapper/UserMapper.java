@@ -1,6 +1,5 @@
 package com.sparta.java02.domain.user.mapper;
 
-import com.sparta.java02.domain.user.dto.UserCreateRequest;
 import com.sparta.java02.domain.user.dto.UserResponse;
 import com.sparta.java02.domain.user.dto.UserSearchResponse;
 import com.sparta.java02.domain.user.entity.User;
@@ -17,5 +16,5 @@ public interface UserMapper {
 
   UserSearchResponse toSearch(User user);
 
-  User toEntity(UserCreateRequest request);
+  //User toEntity(UserCreateRequest request);
 }
