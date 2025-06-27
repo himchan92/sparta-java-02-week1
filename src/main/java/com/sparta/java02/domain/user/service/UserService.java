@@ -109,7 +109,16 @@ public class UserService {
     user.setEmail(request.getEmail());
 
     userRepository.save(user);
+  }
 
+  @Transactional
+  public void updateUser(Long id, String newName) {
+    User getUser = getUser(id);
+
+    getUser.changeName(newName);
+
+    // Transactional 있으면 setter처리(changeName)만 해줘도 변경감지로 UPDATE 수행되어 save 없어도됨
+    //userRepository.save(getUser);
   }
 
   @Transactional

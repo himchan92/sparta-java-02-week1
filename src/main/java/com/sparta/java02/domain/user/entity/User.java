@@ -58,6 +58,10 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Purchase> purchases = new ArrayList<>();
 
+  public void changeName(String name) {
+    this.name = name;
+  }
+
 //  @Column
 //  @UpdateTimestamp //DB 수정마다 JPA가 자동 수정시간 지원
 //  LocalDateTime updatedAt;
