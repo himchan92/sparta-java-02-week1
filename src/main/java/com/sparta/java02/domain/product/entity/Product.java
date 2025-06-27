@@ -47,7 +47,7 @@ public class Product {
   String description;
 
   @Column(nullable = false)
-  BigDecimal price;
+  double price;
 
   @Column(nullable = false)
   Integer stock;
@@ -65,12 +65,17 @@ public class Product {
       Long categoryId,
       String name,
       String description,
-      BigDecimal price,
+      double price,
       Integer stock
   ) {
     this.categoryId = categoryId;
     this.name = name;
     this.description = description;
+
+    if(price < 0) {
+      throw new IllegalArgumentException("가격은 음수일 수 없습니다.");
+    }
+
     this.price = price;
     this.stock = stock;
   }

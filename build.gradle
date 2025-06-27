@@ -49,9 +49,9 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    //Mapstruct
+    //Mapstruct : 반드시 롬복아래에 위치해야함
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final' //반드시 롬복아래에 위치해야함
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     //Swagger API
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
