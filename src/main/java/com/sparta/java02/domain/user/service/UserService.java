@@ -10,6 +10,8 @@ import com.sparta.java02.domain.user.entity.User;
 import com.sparta.java02.domain.user.mapper.UserMapper;
 import com.sparta.java02.domain.user.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class UserService {
 
   private final UserMapper userMapper; //mapstruct 사용
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<UserSearchResponse> searchUser() {
 //    return userRepository.findAll().stream()
 //        .map((user) -> UserSearchResponse.builder()
@@ -44,7 +46,7 @@ public class UserService {
         .toList();
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public UserResponse getUserById(Long userId) {
 //    User user = getUser(userId);
 //
@@ -56,7 +58,13 @@ public class UserService {
 //        .build();
 
     //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
+    //조회 메소드는 공통함수(getUser()) 만들어 활용
     return userMapper.toResponse(getUser(userId));
+  }
+
+  @Transactional(readOnly = true)
+  public Optional<User> findUserByEmail(String email) {
+    return userRepository.findByEmail(email);
   }
 
   @Transactional

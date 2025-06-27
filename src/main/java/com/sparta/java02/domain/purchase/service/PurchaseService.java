@@ -9,6 +9,7 @@ import com.sparta.java02.domain.purchase.dto.PurchaseRequest;
 import com.sparta.java02.domain.purchase.repository.PurchaseRepository;
 import com.sparta.java02.domain.user.entity.User;
 import com.sparta.java02.domain.user.repository.UserRepository;
+import com.sparta.java02.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,8 @@ public class PurchaseService {
   private final PurchaseRepository purchaseRepository;
 
   //금지1. 다른 도메인의 Service를 참조하지 말것(실행은 되나 바람직하지 않다)
+  //private UserService userService;
+
   //권장1. 다른 도메인의 Repository를 참조하자
   private final UserRepository userRepository;
 

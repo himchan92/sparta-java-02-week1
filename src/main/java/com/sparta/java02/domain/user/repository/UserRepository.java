@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   // Fetch Join 성능개선 예제
   @Query("SELECT u FROM User u JOIN FETCH u.purchases")
   List<User> findAllByWithPurchases();
+
+  @Query("SELECT U FROM User u WHERE u.email = :email")
+  Optional<User> findByEmail(String email);
 }
