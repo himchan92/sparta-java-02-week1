@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,9 +31,9 @@ public class Product {
   Long id;
 
   //TODO: 실습을  위해 임시로 주석처리
-  //@ManyToOne(fetch = FetchType.LAZY)
-  //@JoinColumn(name = "category_id")
-  //private Category category;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "category_id")
+//  private Category category;
 
   //TODO: 실습을 위한 임시 컬럼입니다. (실제론 이렇게 작업하면 안됩니다.)
   @Column(nullable = false)
@@ -72,7 +71,7 @@ public class Product {
     this.name = name;
     this.description = description;
 
-    if(price < 0) {
+    if (price < 0) {
       throw new IllegalArgumentException("가격은 음수일 수 없습니다.");
     }
 

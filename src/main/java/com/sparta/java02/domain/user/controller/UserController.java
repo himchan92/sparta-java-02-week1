@@ -2,7 +2,6 @@ package com.sparta.java02.domain.user.controller;
 
 import com.sparta.java02.common.response.ApiResponse;
 import com.sparta.java02.domain.user.dto.UserCreateRequest;
-import com.sparta.java02.domain.user.dto.UserResponse;
 import com.sparta.java02.domain.user.dto.UserSearchResponse;
 import com.sparta.java02.domain.user.dto.UserUpdateRequest;
 import com.sparta.java02.domain.user.service.UserService;
@@ -72,10 +71,10 @@ public class UserController {
     return ApiResponse.success(userService.searchUser());
   }
 
-  @GetMapping("/{userId}")
-  public ApiResponse<UserResponse> findbyId(@PathVariable Long userId) {
-    return ApiResponse.success(userService.getUserById(userId));
-  }
+//  @GetMapping("/{userId}")
+//  public ApiResponse<UserResponse> findbyId(@PathVariable Long userId) {
+//    return ApiResponse.success(userService.getUserById(userId));
+//  }
 
   //API 스펙 확인되고 여러 개발자가 보기쉽게하가위해서 별도 Request, Response DTO 만들어 명시
   //@Valid : validation 지원함수를 적용위해 필수 설정
