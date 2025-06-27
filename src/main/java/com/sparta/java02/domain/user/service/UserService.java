@@ -27,6 +27,9 @@ public class UserService {
   //동작, 분기처리 등 대부분로직은 서비스에서 수행하고 컨트롤러에서 분기처리 등 넣지말자
   private final UserRepository userRepository;
 
+  //암호화 객체(시큐리티 셋팅 후 가능)
+  //private final PasswordEncoder passwordEncoder;
+
   private final UserMapper userMapper; //mapstruct 사용
 
   @Transactional(readOnly = true)
@@ -79,6 +82,24 @@ public class UserService {
     //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
     userRepository.save(userMapper.toEntity(request));
   }
+
+//  @Transactional
+//  public UserResponse createUser(UserCreateRequest request) {
+//    //이메일 중복확인
+//    if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+//      throw new ServiceException(ServiceExceptionCode.DUPLICATE_EMAIL);
+//    }
+//
+//    //암호화
+//    String encodePassword = passwordEncode.encode(request.getPassword());
+//
+//    // 3. DTO를 Entity로 변환하여 DB에 저장
+//    User user = request.toEntity(encodedPassword);
+//    User savedUser = userRepository.save(user);
+//
+//    // 4. Entity를 Response DTO로 변환하여 Controller에 반환
+//    return UserResponse.fromEntity(savedUser);
+//  }
 
   @Transactional
   public void update(Long userId, UserUpdateRequest request) {
