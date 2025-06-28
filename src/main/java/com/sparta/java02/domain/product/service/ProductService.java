@@ -11,6 +11,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Transactional - 서비스 계층에서만 사용 - 데이터와 직접소통은 Repository가 하고 Repository통해 받은 데이터를 로직화하는 역할이니
+ * Repository에 로직들어가면안됨 데이터소통역할만 해야함 - 컨트롤러는 외부 URL 통해 클라이언트와 소통만 하여 데이터구조를 직접 알수 없는 역할
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductService {
