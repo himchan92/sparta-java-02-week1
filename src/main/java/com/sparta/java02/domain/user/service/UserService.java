@@ -50,8 +50,12 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public UserResponse getUserById(Long userId) {
-//    User user = getUser(userId);
-//
+    User user = userRepository.findById(userId)
+        //orElseThrow() 방식을 써서 Optional대신 활용 가능
+        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_USER));
+
+    //Mapstructs 사용전 : 빌더로 아래 필드를 일일이 매핑로직 짜줘야해서 필드가 많을경우 불편한 단점
+    //Mapstructs 사용후 : 일일이 매핑로직 짜는것을 자동화처리해주는 장점
 //    return UserResponse.builder()
 //        .id(user.getId())
 //        .name(user.getName())
@@ -59,8 +63,7 @@ public class UserService {
 //        .createdAt(user.getCreatedAt())
 //        .build();
 
-    //위와 같이 일일이 매칭할필요없이 아래 mapstruct 활요하여 간략히 하고 비즈니스에 집중할수있음
-    //조회 메소드는 공통함수(getUser()) 만들어 활용
+    //일일이 필드 매핑없이 대신 수행해줘서 비즈니스 로직집중시켜주는 장점
     return userMapper.toResponse(getUser(userId));
   }
 
