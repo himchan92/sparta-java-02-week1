@@ -1,8 +1,13 @@
 package com.sparta.java02.domain.user.entity;
 
 import com.sparta.java02.domain.purchase.entity.Purchase;
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +28,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Getter
 @Setter
-//@Builder // 클래스에 명시할경우 모든 필드 있는 생성자를 요구하는데 엔티니는 모든필드 노출하면 안되서 안하는걸 권장
+//@Builder //모든 필드를 사용할경우 클래스에 명시하고 외부노출방지 일부만 노출시키고 싶은경우 생성자에 명시하여 활용
 @DynamicInsert //값이 null이 아닌것만 INSERT 작성 (필수 권장)
 @DynamicUpdate //기존과 비교하여 변경된 내용만 UPDATE 작성 (필수 권장)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -53,7 +58,7 @@ public class User {
   // updatable = false 넣어 create만 되게 방지
   @Column(nullable = false, updatable = false)
   @CreationTimestamp //CURRENT TIMESTAMP 속성 지원
-  LocalDateTime createdAt; //자바 자주쓰는 날짜시간 함수
+      LocalDateTime createdAt; //자바 자주쓰는 날짜시간 함수
 
   @OneToMany(mappedBy = "user")
   private List<Purchase> purchases = new ArrayList<>();
