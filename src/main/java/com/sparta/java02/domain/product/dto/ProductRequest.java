@@ -14,7 +14,7 @@ public class ProductRequest {
 
   Long categoryId;
 
-  @NotNull //validation 지원으로 컨트롤러에서 @Valid 필요
+  @NotNull //validation 지원으로 컨트롤러에서 @Valid 필요, 많이 쓰는 null 체크, @NotBlank는 문자열 전용으로 문자열일때만 사용
   String name;
 
   String description;

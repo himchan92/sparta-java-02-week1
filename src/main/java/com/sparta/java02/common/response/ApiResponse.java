@@ -16,9 +16,10 @@ import org.springframework.http.ResponseEntity;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
 
+  //JSON 구조에서 필수보여지는곳
   Boolean result;
   Error error;
-  T message;
+  T message; // 정석적으론 data로 명명한다, 앱쪽은 message, 백엔드는 message로 많이써서 회사마다 다름
 
   public static <T> ApiResponse<T> success() {
     return success(null);
