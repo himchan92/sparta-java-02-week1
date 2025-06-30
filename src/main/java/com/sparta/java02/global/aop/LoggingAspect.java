@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component // 해당 클래스가 스프링컨테이너 등록되게 필수셋팅
 public class LoggingAspect {
 
-  //컨트롤러 패키지 하위를 대상
+  //컨트롤러 패키지 하위 모든 메서드를 실행 전(@Before) 적용
   @Before("execution(* com.sparta.java02.domain..controller..*(..))")
   public void logBeforeApiExecution() {
     log.info("Logging Before API 메소드 실행 전 로그");
