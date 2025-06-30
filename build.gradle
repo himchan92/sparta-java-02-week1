@@ -1,16 +1,10 @@
-buildscript {
-    ext {
-        queryDslVersion = "5.0.0"
-    }
-}
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'com.sparta'
+group = 'com.sparta.bootcamp'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -30,57 +24,44 @@ repositories {
 }
 
 dependencies {
-    //implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    // 기존 Tomcat 의존성 제외
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    // Undertow 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    //flyway 설정 (DB 스키마 관리)
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    // DB 스키마 대신관리해주는 flyway 설정
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-
-    //Mapstruct : 반드시 롬복아래에 위치해야함
+    //반드시 아래것들은 위 lombok 보다 아래에 위치해야한다
+    // mapstruct 설정
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-    //QueryDSL
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
-    annotationProcessor(
-            "jakarta.persistence:jakarta.persistence-api",
-            "jakarta.annotation:jakarta.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
-    )
+    // QueryDSL 설정
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    //Swagger API
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-// Q-type 소스 생성 위치 지정
-def querydslDir = "$buildDir/generated/querydsl"
-
-// sourceSets 설정
-sourceSets {
-    main.java.srcDirs += [querydslDir]
 }
 
 tasks.named('compileJava') {
