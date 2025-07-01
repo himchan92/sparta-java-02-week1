@@ -30,26 +30,41 @@ public class PurchaseService {
 
   @Transactional
   public Purchase purchase(PurchaseRequest request) {
-    //구매 생성
-    User user = userRepository.findById(request.getUserId())
-        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_USER));
-
-    Purchase purchase = purchaseRepository.save(Purchase.builder()
-        .user(user)
-        .build());
 
     BigDecimal totalPrice = BigDecimal.ZERO;
     List<PurchaseProduct> purchaseProducts = new ArrayList<>();
 
-    //구매 상품 처리
+    //구매 대상 조회
+    //튜터님: findByID 같은 도메인 여러개면 공통화해도 괜찮으나 각각 한번씩 조회되는경우 비추천
+    User user = userRepository.findById(request.getUserId())
+        .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_USER));
+
+    //구매 대상 저장
+    Purchase purchase = savePurchase(user);
+
+    //구매 처리
+    totalPrice = createPurchases(request, purchase, purchaseProducts, totalPrice);
+
+    //구매정보 업데이트 및 저장
+    updatePurchase(purchase, totalPrice, purchaseProducts);
+
+    return purchase;
+  }
+
+  private void updatePurchase(Purchase purchase, BigDecimal totalPrice,
+      List<PurchaseProduct> purchaseProducts) {
+    purchase.setTotalPrice(totalPrice);
+    purchaseProductRepository.saveAll(purchaseProducts);
+  }
+
+  private BigDecimal createPurchases(PurchaseRequest request, Purchase purchase,
+      List<PurchaseProduct> purchaseProducts, BigDecimal totalPrice) {
     for (PurchaseProductRequest itemRequest : request.getPurchaseItems()) {
-      Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow();
+      Product product = productRepository.findById(itemRequest.getProductId())
+          .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_PRODUCT));
 
-      if (itemRequest.getQuantity() > product.getStock()) {
-        throw new ServiceException(ServiceExceptionCode.OUT_OF_STOCK_PRODUCT);
-      }
-
-      product.reduceStock(itemRequest.getQuantity());
+      //재고수량 체크 및 감소
+      validateReduceStock(itemRequest, product);
 
       PurchaseProduct purchaseProduct = PurchaseProduct.builder()
           .product(product)
@@ -62,11 +77,21 @@ public class PurchaseService {
       totalPrice = totalPrice.add(
           product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity())));
     }
+    return totalPrice;
+  }
 
-    //구매정보 업데이트 및 저장
-    purchase.setTotalPrice(totalPrice);
-    purchaseProductRepository.saveAll(purchaseProducts);
+  private void validateReduceStock(PurchaseProductRequest itemRequest, Product product) {
+    if (itemRequest.getQuantity() > product.getStock()) {
+      throw new ServiceException(ServiceExceptionCode.OUT_OF_STOCK_PRODUCT);
+    }
 
+    product.reduceStock(itemRequest.getQuantity());
+  }
+
+  private Purchase savePurchase(User user) {
+    Purchase purchase = purchaseRepository.save(Purchase.builder()
+        .user(user)
+        .build());
     return purchase;
   }
 }
