@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -30,7 +29,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath passwordHash = createString("passwordHash");
 
-    public final ListPath<com.sparta.java02.domain.purchase.entity.Purchase, com.sparta.java02.domain.purchase.entity.QPurchase> purchases = this.<com.sparta.java02.domain.purchase.entity.Purchase, com.sparta.java02.domain.purchase.entity.QPurchase>createList("purchases", com.sparta.java02.domain.purchase.entity.Purchase.class, com.sparta.java02.domain.purchase.entity.QPurchase.class, PathInits.DIRECT2);
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = createDateTime("updatedAt", java.time.LocalDateTime.class);
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));

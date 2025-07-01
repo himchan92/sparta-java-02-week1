@@ -1,7 +1,6 @@
 package com.sparta.java02.domain.user.repository;
 
 import com.sparta.java02.domain.user.entity.User;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findUser(String name);
 
   // Fetch Join 성능개선 예제
-  @Query("SELECT u FROM User u JOIN FETCH u.purchases")
-  List<User> findAllByWithPurchases();
+//  @Query("SELECT u FROM User u JOIN FETCH u.purchases")
+//  List<User> findAllByWithPurchases();
 
   Optional<User> findByEmail(String email);
 }
