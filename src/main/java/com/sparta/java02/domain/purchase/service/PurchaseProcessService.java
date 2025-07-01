@@ -37,13 +37,6 @@ public class PurchaseProcessService {
     purchase.setTotalPrice(totalPrice);
   }
 
-  //Transactional을 갖고있는 메소드 내부에서 호출되는 메소드라 공유되고있어서 따로 안붙였음
-  private Purchase savePurchase(User user) {
-    return purchaseRepository.save(Purchase.builder()
-        .user(user)
-        .build());
-  }
-
   @Transactional
   public List<PurchaseProduct> createPurchaseProducts(List<PurchaseProductRequest> itemRequests,
       Purchase purchase) {
@@ -75,6 +68,13 @@ public class PurchaseProcessService {
     purchaseProductRepository.saveAll(purchaseProducts);
 
     return purchaseProducts;
+  }
+
+  //Transactional을 갖고있는 메소드 내부에서 호출되는 메소드라 공유되고있어서 따로 안붙였음
+  private Purchase savePurchase(User user) {
+    return purchaseRepository.save(Purchase.builder()
+        .user(user)
+        .build());
   }
 
   private void validateStock(Product product, int requestedQuantity) {
