@@ -29,7 +29,7 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Double> price = createNumber("price", Double.class);
+    public final NumberPath<java.math.BigDecimal> price = createNumber("price", java.math.BigDecimal.class);
 
     public final NumberPath<Integer> stock = createNumber("stock", Integer.class);
 

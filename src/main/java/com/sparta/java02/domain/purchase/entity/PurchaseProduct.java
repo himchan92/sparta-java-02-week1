@@ -1,10 +1,14 @@
-package com.sparta.java02.domain.product.entity;
+package com.sparta.java02.domain.purchase.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -25,32 +29,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 @DynamicUpdate
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
+public class PurchaseProduct {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  //TODO: 실습을  위해 임시로 주석처리
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "category_id")
-//  private Category category;
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "purchase_id", nullable = false)
+  Purchase purchase;
 
-  //TODO: 실습을 위한 임시 컬럼입니다. (실제론 이렇게 작업하면 안됩니다.)
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id", nullable = false)
+  com.sparta.java02.domain.product.entity.Product product;
+
   @Column(nullable = false)
-  Long categoryId;
-
-  @Column(nullable = false)
-  String name;
-
-  @Column(columnDefinition = "TEXT")
-  String description;
+  Integer quantity;
 
   @Column(nullable = false)
   BigDecimal price;
-
-  @Column(nullable = false)
-  Integer stock;
 
   @Column(nullable = false, updatable = false)
   @CreationTimestamp
@@ -61,21 +60,16 @@ public class Product {
   LocalDateTime updatedAt;
 
   @Builder
-  public Product(
-      Long categoryId,
-      String name,
-      String description,
-      BigDecimal price,
-      Integer stock
+  public PurchaseProduct(
+      Purchase purchase,
+      com.sparta.java02.domain.product.entity.Product product,
+      Integer quantity,
+      BigDecimal price
   ) {
-    this.categoryId = categoryId;
-    this.name = name;
-    this.description = description;
+    this.purchase = purchase;
+    this.product = product;
+    this.quantity = quantity;
     this.price = price;
-    this.stock = stock;
   }
 
-  public void reduceStock(Integer stock) {
-    this.stock -= stock;
-  }
 }

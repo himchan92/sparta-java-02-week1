@@ -22,7 +22,7 @@ public class ProductResponse {
 
   String description;
 
-  double price;
+  BigDecimal price;
 
   Integer stock;
 

@@ -1,6 +1,8 @@
 package com.sparta.java02.domain.purchase.entity;
 
 import com.sparta.java02.common.enums.PurchaseStatus;
+import com.sparta.java02.common.exception.ServiceException;
+import com.sparta.java02.common.exception.ServiceExceptionCode;
 import com.sparta.java02.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -72,5 +74,17 @@ public class Purchase {
     if (!ObjectUtils.isEmpty(status)) {
       this.status = status;
     }
+  }
+
+  public void setTotalPrice(BigDecimal totalPrice) {
+    this.totalPrice.add(totalPrice);
+  }
+
+  // Setter를 막고, 의미 있는 메서드로 상태 변경을 제어
+  public void cancelPurchase() {
+    if (this.status != PurchaseStatus.PENDING) {
+      throw new ServiceException(ServiceExceptionCode.CANNOT_CANCEL);
+    }
+    this.status = PurchaseStatus.CANCELED;
   }
 }
