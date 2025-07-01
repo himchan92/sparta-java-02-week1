@@ -15,5 +15,5 @@ public class PurchaseRequest {
 
   Integer quantity;
 
-  List<PurchaseProductRequest> purchaseProducts;
+  List<PurchaseProductRequest> purchaseItems;
 }
