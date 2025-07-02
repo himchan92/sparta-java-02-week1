@@ -63,7 +63,6 @@ public class PurchaseCancelService {
   private static List<PurchaseProductResponse> getPurchaseProductResponses(List<PurchaseProduct> purchaseProducts) {
     return purchaseProducts.stream()
         .map((purchaseProduct) -> {
-          Product product = purchaseProduct.getProduct();
           BigDecimal totalPrice = purchaseProduct.getPrice()
               .multiply(BigDecimal.valueOf(purchaseProduct.getQuantity()));
 
