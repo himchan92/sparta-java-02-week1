@@ -42,8 +42,8 @@ public class Purchase {
   Long id;
 
   @JsonBackReference
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY) //지연로딩 필수
+  @JoinColumn(name = "user_id", nullable = false) //User > user_id 조인
   User user;
 
   @Column(nullable = false)

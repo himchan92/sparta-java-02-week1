@@ -1,6 +1,9 @@
 package com.sparta.java02.domain.user.entity;
 
+import com.sparta.java02.domain.purchase.entity.Purchase;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +44,9 @@ public class User {
   @UpdateTimestamp //엔티티 수정 시 자동 시간부여
   @Column(name = "updated_at")
   LocalDateTime updatedAt;
+
+  @OneToMany(mappedBy = "user") // 1:N 사용자 한명이 여러주문 관리
+  private List<Purchase> purchases = new ArrayList<>();
 
   @Builder //전체 노출시 클래스에 붙여도 상관없으나 제한된 필드만 노출시키고싶은경우 별도 생성자 생성하여 명시
   public User(String username, String email, String password) {
