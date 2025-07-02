@@ -107,9 +107,8 @@ public class UserService {
   public void update(Long userId, UserUpdateRequest request) {
     User user = getUser(userId);
 
-    user.setName(request.getName());
-    user.setEmail(request.getEmail());
-
+//    user.setName(request.getName());
+//    user.setEmail(request.getEmail());
     userRepository.save(user);
   }
 

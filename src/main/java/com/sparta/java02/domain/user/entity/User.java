@@ -1,79 +1,56 @@
 package com.sparta.java02.domain.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- * 엔티티란? - DB 테이블을 자바코드에서 관리하기위한 데이터클래스 - 기본생성자 필수 - DB 생성 시 테이블명을 다르게 하는경우 name 속성 설정필요하고 아니면 생략가능
- */
-@Table
-@Entity
+import java.time.LocalDateTime;
+
+@Entity //해당 객체는 JPA가 관리하는 엔티티라고 명시
 @Getter
-@Setter
-//@Builder //모든 필드를 사용할경우 클래스에 명시하고 외부노출방지 일부만 노출시키고 싶은경우 생성자에 명시하여 활용
-@DynamicInsert //값이 null이 아닌것만 INSERT 작성 (필수 권장)
-@DynamicUpdate //기존과 비교하여 변경된 내용만 UPDATE 작성 (필수 권장)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-//모든 필드를 일괄 지원되어 필드에 일일이 명시안해도됨(단, 엔티티, DTO에서만 사용하고 서비스, 컨트롤러에서는 권장x)
-@NoArgsConstructor //JSON 직렬화위해 필수
+@DynamicInsert //null 아닌것만 insert
+@DynamicUpdate //null 아닌것만 update
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@Table(name = "user") //테이블생성이 이름을 user로 설정, 객체명이 동일하면 생략가능
+@FieldDefaults(level = AccessLevel.PRIVATE) //모든 필드 자료형 private 적용
 public class User {
 
-  @Id //PK 부여
-  @GeneratedValue(strategy = GenerationType.IDENTITY) // MYSQL auto increment 역할 수행
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
   Long id;
 
-  // @Column: JPA가 테이블 생성시 컬럼정보 매핑
-  // name : 컬럼명과 필드명 동일 시 생략 가능
-  // nullable: 디폴트 TRUE라서 false는 별도 설정
-  // length: 기본 255라서 255아닌경우 별도 설정
-  @Column(nullable = false, length = 50)
-  String name; //필드명은 카멜방식 권장, DB 필드명으로 생성
+  @Column(nullable = false, length = 50) //name 속성은 필드명 그대로 컬럼할경우 생략
+  String username;
 
-  @Column
+  @Column(nullable = false, unique = true)
   String email;
 
-  // (name = "password_hash") 같이 언더바만 차이있으면 JPA가 알아서 카멜케이스변환해줌
-  @Column
-  String passwordHash;
+  @Column(nullable = false, name = "password") //DB컬럼은 언더바 권장이라 name으로 설정
+  String password;
 
-  // (name = "created_at") 같이 언더바만 차이있으면 JPA가 알아서 카멜케이스변환해줌
-  // updatable = false 넣어 create만 되게 방지
-  // @CreationTimestamp: CURRENT TIMESTAMP 속성 지원
-  @Column(nullable = false, updatable = false)
-  @CreationTimestamp
-  LocalDateTime createdAt; //자바 자주쓰는 날짜시간 함수
+  @CreationTimestamp //엔티티 생성시 자동 시간부여
+  @Column(name = "create_at", nullable = false, updatable = false) //생성시점은 필수기록이니 nullable = false 부여
+  LocalDateTime createdAt;
 
-  @Column
-  @UpdateTimestamp //DB 수정마다 JPA가 자동 수정시간 지원
+  @UpdateTimestamp //엔티티 수정 시 자동 시간부여
+  @Column(name = "updated_at")
   LocalDateTime updatedAt;
 
-  @Builder //외부에 노출시킬 제한된 필드만 다루기위해 명시한 생성자에 명시하는걸 실무적 관점에서 권장
-  public User(
-      String name,
-      String email,
-      String passwordHash
-  ) {
-    this.name = name;
+  @Builder //전체 노출시 클래스에 붙여도 상관없으나 제한된 필드만 노출시키고싶은경우 별도 생성자 생성하여 명시
+  public User(String username, String email, String password) {
+    this.username = username;
     this.email = email;
-    this.passwordHash = passwordHash;
+    this.password = password;
   }
 
-  public void changeName(String name) {
-    this.name = name;
+  public void changeName(String username) {
+    this.username = username;
   }
 }
