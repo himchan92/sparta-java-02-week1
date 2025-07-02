@@ -27,6 +27,7 @@ public class PurchaseCancelService {
   private final PurchaseRepository purchaseRepository;
   private final PurchaseProductRepository purchaseProductRepository;
 
+  //해당 메소드 호출된 메소드에도 @Transactional 붙어있는데 생략안되고 둘다 붙어있어야 한다(추후, 동시성 개념등 배울때 자세히 안내예정)
   @Transactional
   public PurchaseCancelResponse cancel(Long purchaseId, Long userId) {
     Purchase purchase = purchaseRepository.findByIdAndUser_Id(purchaseId, userId)

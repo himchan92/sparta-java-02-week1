@@ -2,6 +2,7 @@ package com.sparta.java02.domain.purchase.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.java02.common.enums.PurchaseStatus;
+import com.sparta.java02.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,15 +44,14 @@ public class Purchase {
   @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  com.sparta.java02.domain.user.entity.User user;
+  User user;
 
   @Column(nullable = false)
   BigDecimal totalPrice;
 
-  @Setter
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 20)
-  com.sparta.java02.common.enums.PurchaseStatus status;
+  PurchaseStatus status;
 
   @Column(nullable = false, updatable = false)
   @CreationTimestamp
@@ -63,9 +63,9 @@ public class Purchase {
 
   @Builder
   public Purchase(
-      com.sparta.java02.domain.user.entity.User user,
+      User user,
       BigDecimal totalPrice,
-      com.sparta.java02.common.enums.PurchaseStatus status
+      PurchaseStatus status
   ) {
     this.user = user;
     this.totalPrice = totalPrice;
