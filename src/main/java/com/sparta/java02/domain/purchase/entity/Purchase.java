@@ -42,7 +42,7 @@ public class Purchase {
   Long id;
 
   @JsonBackReference
-  @ManyToOne(fetch = FetchType.LAZY) //지연로딩 필수
+  @ManyToOne(fetch = FetchType.LAZY) //지연로딩 : 엔티티데이터를 실제 사용하는 시점까지 조회를 미루는 방식으로 로딩속도 향상
   @JoinColumn(name = "user_id", nullable = false) //User > user_id 조인
   User user;
 
