@@ -1,11 +1,8 @@
 package com.sparta.java02.domain.product.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.sparta.java02.domain.category.entity.Category;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -32,13 +29,9 @@ public class Product {
   Long id;
 
   //TODO: 실습을  위해 임시로 주석처리
-  //@ManyToOne(fetch = FetchType.LAZY)
-  //@JoinColumn(name = "category_id")
-  //private Category category;
-
-  //TODO: 실습을 위한 임시 컬럼입니다. (실제론 이렇게 작업하면 안됩니다.)
-  @Column(nullable = false)
-  Long categoryId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id")
+  private Category category;
 
   @Column(nullable = false)
   String name;
@@ -62,13 +55,13 @@ public class Product {
 
   @Builder
   public Product(
-      Long categoryId,
+      Category category,
       String name,
       String description,
       BigDecimal price,
       Integer stock
   ) {
-    this.categoryId = categoryId;
+    this.category = category;
     this.name = name;
     this.description = description;
     this.price = price;
