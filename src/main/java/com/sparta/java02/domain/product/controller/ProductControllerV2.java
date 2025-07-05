@@ -30,13 +30,15 @@ public class ProductControllerV2 {
   //전체 조회
   @GetMapping
   public ResponseEntity<List<ProductResponse>> getAll() {
-    return ResponseEntity.ok(productService.getAll());
+    //return ResponseEntity.ok(productService.getAll());
+    return null;
   }
 
   //단일 조회
   @GetMapping("/{id}")
   public ResponseEntity<ProductResponse> getById(@PathVariable Long id) {
-    return ResponseEntity.ok(productService.getById(id));
+    //return ResponseEntity.ok(productService.getById(id));
+    return null;
   }
 
   //등록
@@ -44,16 +46,18 @@ public class ProductControllerV2 {
   @PostMapping
   public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
     //201 created 상태코드와 함께 응답
-    return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(productService.create(request));
+//    return ResponseEntity
+//            .status(HttpStatus.CREATED)
+//            .body(productService.create(request));
+    return null;
   }
 
   //수정
   // 변경 호출방식에는 Body에 값 전달하기위해 @RequestBody 필수설정
   @PutMapping("/{id}")
   public ResponseEntity<ProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
-    return ResponseEntity.ok(productService.update(id, request));
+    //return ResponseEntity.ok(productService.update(id, request));
+    return null;
   }
 
   //삭제
@@ -62,6 +66,7 @@ public class ProductControllerV2 {
     productService.delete(id);
 
     //204 No Content 으답
-    return ResponseEntity.noContent().build();
+    //return ResponseEntity.noContent().build();
+    return null;
   }
 }
